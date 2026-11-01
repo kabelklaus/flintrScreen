@@ -6,6 +6,7 @@ core-ktx = "1.16.0"
 activity-compose = "1.9.3"
 tv-foundation = "1.0.0"
 tv-material = "1.0.0"
+oboe = "1.9.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -19,6 +20,8 @@ compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 
 tv-foundation = { group = "androidx.tv", name = "tv-foundation", version.ref = "tv-foundation" }
 tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "tv-material" }
+
+oboe = { group = "com.google.oboe", name = "oboe", version.ref = "oboe" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
