@@ -44,7 +44,7 @@ static void _log_callback(void *cls, int level, const char *msg) {
 
 extern "C"
 JNIEXPORT jlong JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeInit(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeInit(
         JNIEnv *env, jobject thiz,
         jobject callback, jbyteArray hwAddr, jstring name, jstring keyFile,
         jboolean nohold, jboolean requirePin) {
@@ -118,7 +118,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeInit(
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeStart(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeStart(
         JNIEnv *env, jobject thiz, jlong handle, jint requestedPort) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -147,7 +147,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeStart(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeStop(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeStop(
         JNIEnv *env, jobject thiz, jlong handle) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -164,7 +164,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeStop(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeDestroy(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeDestroy(
         JNIEnv *env, jobject thiz, jlong handle) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -188,7 +188,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeDestroy(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeSetDisplaySize(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeSetDisplaySize(
         JNIEnv *env, jobject thiz, jlong handle, jint w, jint h, jint fps) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -230,7 +230,7 @@ static jobject _build_txt_map(JNIEnv *env, dnssd_t *dnssd, int is_raop) {
 
 extern "C"
 JNIEXPORT jobject JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeGetRaopTxtRecords(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeGetRaopTxtRecords(
         JNIEnv *env, jobject thiz, jlong handle) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -240,7 +240,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeGetRaopTxtRecords(
 
 extern "C"
 JNIEXPORT jobject JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeGetAirplayTxtRecords(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeGetAirplayTxtRecords(
         JNIEnv *env, jobject thiz, jlong handle) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -250,7 +250,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeGetAirplayTxtRecords(
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeGetRaopServiceName(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeGetRaopServiceName(
         JNIEnv *env, jobject thiz, jlong handle) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -260,7 +260,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeGetRaopServiceName(
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeGetServerName(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeGetServerName(
         JNIEnv *env, jobject thiz, jlong handle) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -272,7 +272,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeGetServerName(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeSetPlist(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeSetPlist(
         JNIEnv *env, jobject thiz, jlong handle, jstring key, jint value) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -284,7 +284,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeSetPlist(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeSetH265Enabled(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeSetH265Enabled(
         JNIEnv *env, jobject thiz, jlong handle, jboolean enabled) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -299,7 +299,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeSetH265Enabled(
 /* hls plist gates raop.c's hls support; feature bits 0/4 advertise it over dns-sd */
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeSetHlsEnabled(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeSetHlsEnabled(
         JNIEnv *env, jobject thiz, jlong handle, jboolean enabled) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -313,7 +313,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeSetHlsEnabled(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeSetLang(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeSetLang(
         JNIEnv *env, jobject thiz, jlong handle, jstring lang) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -325,7 +325,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeSetLang(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeSetFeature(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeSetFeature(
         JNIEnv *env, jobject thiz, jlong handle, jint bit, jboolean enabled) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -335,7 +335,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeSetFeature(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeSetCodecs(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeSetCodecs(
         JNIEnv *env, jobject thiz, jlong handle, jboolean alac, jboolean aac) {
 
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
@@ -345,7 +345,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeSetCodecs(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeUpdatePlaybackInfo(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeUpdatePlaybackInfo(
         JNIEnv *env, jobject thiz, jlong handle,
         jfloat position, jfloat duration, jfloat rate, jboolean readyToPlay) {
 
@@ -356,14 +356,14 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeUpdatePlaybackInfo(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeSetDefaultStreamValues(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeSetDefaultStreamValues(
         JNIEnv *env, jobject thiz, jint sampleRate, jint framesPerBurst) {
     audio_engine_set_default_stream_values(sampleRate, framesPerBurst);
 }
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioStart(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeServerAudioStart(
         JNIEnv *env, jobject thiz, jlong handle) {
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
     if (!ctx || !ctx->cb_ctx.audio_engine) return JNI_FALSE;
@@ -372,7 +372,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioStart(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioStop(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeServerAudioStop(
         JNIEnv *env, jobject thiz, jlong handle) {
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
     if (ctx && ctx->cb_ctx.audio_engine) audio_engine_pause(ctx->cb_ctx.audio_engine);
@@ -380,7 +380,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioStop(
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioConfigure(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeServerAudioConfigure(
         JNIEnv *env, jobject thiz, jlong handle, jint cushionMs, jint percentilePct,
         jint oboeBufferFrames, jboolean forceSwAlac, jboolean forceSwAac, jboolean realtimePriority,
         jboolean lowLatency, jboolean benchmarkLog) {
@@ -393,7 +393,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioConfigure(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioSetClientGain(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeServerAudioSetClientGain(
         JNIEnv *env, jobject thiz, jlong handle, jfloat gain) {
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
     if (ctx && ctx->cb_ctx.audio_engine) audio_engine_set_client_gain(ctx->cb_ctx.audio_engine, gain);
@@ -401,7 +401,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioSetClientGain(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioFormat(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeServerAudioFormat(
         JNIEnv *env, jobject thiz, jlong handle, jint ct, jint spf) {
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
     if (ctx && ctx->cb_ctx.audio_engine) audio_engine_on_format(ctx->cb_ctx.audio_engine, ct, spf);
@@ -409,7 +409,7 @@ Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioFormat(
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_de_flintr_screen_engine_AirPlayEngine_nativeServerAudioDebug(
+Java_com_flintr_screen_engine_AirPlayEngine_nativeServerAudioDebug(
         JNIEnv *env, jobject thiz, jlong handle, jobject buf) {
     server_ctx_t *ctx = (server_ctx_t *)(intptr_t)handle;
     if (!ctx || !ctx->cb_ctx.audio_engine || !buf) return JNI_FALSE;

@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "de.flintr.screen"
+    namespace = "com.flintr.screen"
     compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     defaultConfig {
-        applicationId = "de.flintr.screen"
+        applicationId = "com.flintr.screen"
         minSdk = 23
         targetSdk = 36
         versionCode = 1

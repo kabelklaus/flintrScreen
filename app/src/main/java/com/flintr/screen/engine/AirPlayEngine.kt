@@ -1,4 +1,4 @@
-package de.flintr.screen.engine
+package com.flintr.screen.engine
 
 import androidx.annotation.Keep
 import java.nio.ByteBuffer
@@ -38,6 +38,22 @@ class AirPlayEngine(
         }
         handle = h
         return bound
+    }
+
+    class MdnsService(val name: String, val type: String, val txt: Map<String, String>)
+
+    /**
+     * Records to advertise for the running server. The native dnssd shim only
+     * builds them; the caller must register them with NsdManager.
+     */
+    @Synchronized
+    fun mdnsServices(): List<MdnsService> {
+        val h = handle
+        if (h == 0L) return emptyList()
+        return listOfNotNull(
+            nativeGetRaopServiceName(h)?.let { MdnsService(it, "_raop._tcp", nativeGetRaopTxtRecords(h).orEmpty()) },
+            nativeGetServerName(h)?.let { MdnsService(it, "_airplay._tcp", nativeGetAirplayTxtRecords(h).orEmpty()) },
+        )
     }
 
     @Synchronized
