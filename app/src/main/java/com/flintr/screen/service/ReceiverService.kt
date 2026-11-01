@@ -42,6 +42,7 @@ class ReceiverService : Service() {
 
         override fun onVideoFrame(data: ByteArray, ntpTimeNs: Long, isH265: Boolean) =
             VideoRenderer.feedFrame(data, ntpTimeNs, isH265)
+        override fun onVideoSize(width: Int, height: Int) = VideoRenderer.setResolution(width, height)
         override fun onAudio(compressionType: Int, samplesPerFrame: Int, usingScreen: Boolean) {}
         override fun onStatus(status: String) {
             if (status == "mirror:false") VideoRenderer.stopSession()

@@ -19,6 +19,8 @@ class AirPlayEngine(
 ) {
     interface Listener {
         fun onVideoFrame(data: ByteArray, ntpTimeNs: Long, isH265: Boolean)
+        /** Encoded stream size; arrives before the keyframe it describes, on the same thread. */
+        fun onVideoSize(width: Int, height: Int)
         fun onAudio(compressionType: Int, samplesPerFrame: Int, usingScreen: Boolean)
         fun onStatus(status: String)
     }
@@ -70,6 +72,10 @@ class AirPlayEngine(
     fun onVideoData(data: ByteArray, ntpTimeNs: Long, isH265: Boolean) =
         listener.onVideoFrame(data, ntpTimeNs, isH265)
 
+    // srcW/srcH is the sender's screen, w/h the encoded stream (raop_rtp_mirror.c).
+    fun onVideoSize(srcW: Float, srcH: Float, w: Float, h: Float) =
+        listener.onVideoSize(w.toInt(), h.toInt())
+
     fun onAudioFormat(ct: Int, spf: Int, usingScreen: Boolean) =
         listener.onAudio(ct, spf, usingScreen)
 
@@ -80,7 +86,6 @@ class AirPlayEngine(
     fun onLog(msg: String) = listener.onStatus("log:$msg")
 
     // Not used yet; present so native GetMethodID lookups succeed.
-    fun onVideoSize(srcW: Float, srcH: Float, w: Float, h: Float) {}
     fun onClientVolume(db: Float) {}
     fun onClientVolumeQuery(): Float = 0f
     fun onAudioTeardown() {}
