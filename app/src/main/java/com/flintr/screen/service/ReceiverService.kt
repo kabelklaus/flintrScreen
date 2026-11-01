@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.flintr.screen.MainActivity
 import com.flintr.screen.engine.AirPlayEngine
+import com.flintr.screen.render.VideoRenderer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.net.NetworkInterface
@@ -39,9 +40,11 @@ class ReceiverService : Service() {
     private val listener = object : AirPlayEngine.Listener {
         private var connections = 0
 
-        override fun onVideoFrame(data: ByteArray, ntpTimeNs: Long, isH265: Boolean) {}
+        override fun onVideoFrame(data: ByteArray, ntpTimeNs: Long, isH265: Boolean) =
+            VideoRenderer.feedFrame(data, ntpTimeNs, isH265)
         override fun onAudio(compressionType: Int, samplesPerFrame: Int, usingScreen: Boolean) {}
         override fun onStatus(status: String) {
+            if (status == "mirror:false") VideoRenderer.stopSession()
             val open = synchronized(this) {
                 when (status) {
                     "connection:init" -> ++connections

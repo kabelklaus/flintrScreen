@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import com.flintr.screen.render.VideoRenderer
 import com.flintr.screen.service.ReceiverService
+import com.flintr.screen.ui.MirrorScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +29,15 @@ class MainActivity : ComponentActivity() {
         ReceiverService.start(this)
         setContent {
             val status by ReceiverService.status.collectAsState()
-            FlintrScreenApp(status)
+            val mirroring by VideoRenderer.active.collectAsState()
+            val aspectRatio by VideoRenderer.aspectRatio.collectAsState()
+            MaterialTheme {
+                Box(Modifier.fillMaxSize()) {
+                    MirrorScreen(aspectRatio, mirroring)
+                    // Opaque idle screen covers the surface (and its last frame) until a picture arrives.
+                    if (!mirroring) FlintrScreenApp(status)
+                }
+            }
         }
     }
 }
