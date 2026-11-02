@@ -43,6 +43,11 @@ object VideoRenderer {
     private const val MAX_READY = 64
     private const val MAX_READY_BYTES = 8 * 1024 * 1024
     private const val STATS_INTERVAL_MS = 2000L
+    // Per-frame diagnostics: the first frames of a session, then a sample.
+    private const val FRAME_LOG_FIRST = 10
+    private const val FRAME_LOG_EVERY = 300
+    private const val FRAME_LOG_HEAD = 24
+    private const val FRAME_LOG_NALS = 8
     private const val SURFACE_RELEASE_TIMEOUT_MS = 1000L
 
     private class Frame(val data: ByteArray, val ptsUs: Long, val h265: Boolean)
@@ -89,7 +94,8 @@ object VideoRenderer {
 
     /** Called on native RAOP threads; never blocks. */
     fun feedFrame(data: ByteArray, ntpTimeNs: Long, isH265: Boolean) {
-        received.incrementAndGet()
+        val n = received.incrementAndGet()
+        if (n <= FRAME_LOG_FIRST || n % FRAME_LOG_EVERY == 0) logFrame(n, data, isH265)
         // Started from here so the stats also show frames that never reach the handler.
         if (statsTicking.compareAndSet(false, true)) handler.postDelayed(::statsTick, STATS_INTERVAL_MS)
         if (data.size > MAX_POSTED_BYTES) {
@@ -202,6 +208,31 @@ object VideoRenderer {
         queueReady()
     }
 
+    /** Frame layout as the decoder will see it; runs on the native thread for sampled frames only. */
+    private fun logFrame(n: Int, d: ByteArray, h265: Boolean) {
+        val head = d.take(FRAME_LOG_HEAD).joinToString("") { "%02x".format(it) }
+        val params = parameterSets(d, h265)?.size
+        Log.i(TAG, "frame #$n h265=$h265 len=${d.size} head=$head params=$params nals=${nalTypes(d, h265)}")
+    }
+
+    /** "type@offset" for each Annex-B start code up to the first slice; "none" if there is no start code. */
+    private fun nalTypes(d: ByteArray, h265: Boolean): String {
+        val out = mutableListOf<String>()
+        var i = 0
+        while (i + 3 < d.size && out.size < FRAME_LOG_NALS) {
+            if (d[i] == 0.toByte() && d[i + 1] == 0.toByte() && d[i + 2] == 1.toByte()) {
+                val header = d[i + 3].toInt()
+                val type = if (h265) (header shr 1) and 0x3F else header and 0x1F
+                out += "$type@$i"
+                if (if (h265) type < 32 else type in 1..5) break
+                i += 3
+            } else {
+                i++
+            }
+        }
+        return if (out.isEmpty()) "none" else out.joinToString(",")
+    }
+
     /** One stats line per interval while frames arrive. */
     private fun statsTick() {
         val recv = received.get()
@@ -276,7 +307,10 @@ object VideoRenderer {
 
     private fun startCodec(h265: Boolean, size: Size): Boolean {
         stopCodec()
-        val s = surface ?: return false
+        val s = surface ?: run {
+            Log.w(TAG, "parameter sets arrived but there is no surface to decode to")
+            return false
+        }
         val mime = if (h265) HEVC else AVC
         for (info in decodersFor(mime)) {
             val c = try {
