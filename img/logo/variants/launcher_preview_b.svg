@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="432" height="432">
+  <rect x="0" y="0" width="108" height="108" fill="#2B2E30" />
+  <defs>
+    <mask id="cutFront">
+      <rect x="0" y="0" width="108" height="108" fill="white" />
+      <rect x="46.326" y="47.721" width="31.395" height="32.114" rx="5.930" ry="5.930" fill="black" />
+    </mask>
+  </defs>
+  <g fill="none" stroke="#FFFFFF" stroke-width="4.884" stroke-linecap="round" stroke-linejoin="round">
+    <g mask="url(#cutFront)">
+      <path d="M32.721,29.582 L66.210,29.582 A6.279,6.279 0 0 1 72.489,35.861 L72.489,56.791 A6.279,6.279 0 0 1 66.210,63.070 L32.721,63.070 A6.279,6.279 0 0 1 26.442,56.791 L26.442,35.861 A6.279,6.279 0 0 1 32.721,29.582 Z" />
+    </g>
+    <path d="M48.419,50.512 L76.326,50.512 A5.233,5.233 0 0 1 81.558,55.745 L81.558,73.187 A5.233,5.233 0 0 1 76.326,78.419 L48.419,78.419 A5.233,5.233 0 0 1 43.186,73.187 L43.186,55.745 A5.233,5.233 0 0 1 48.419,50.512 Z" />
+  </g>
+  <!-- 66dp safe-zone guide (visual check only) -->
+  <circle cx="54" cy="54" r="33" fill="none" stroke="#FF0000" stroke-width="0.4" stroke-dasharray="1,1" opacity="0.5" />
+</svg>

@@ -3,7 +3,23 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <group>
+        <clip-path
+            android:pathData="M0,0 L108,0 L108,108 L0,108 Z M46.326,47.721 L77.721,47.721 A5.930,5.930 0 0 1 83.651,53.652 L83.651,73.884 A5.930,5.930 0 0 1 77.721,79.835 L46.326,79.835 A5.930,5.930 0 0 1 40.395,73.884 L40.395,53.652 A5.930,5.930 0 0 1 46.326,47.721 Z"
+            android:fillType="evenOdd" />
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="4.884"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M32.721,29.582 L66.210,29.582 A6.279,6.279 0 0 1 72.489,35.861 L72.489,56.791 A6.279,6.279 0 0 1 66.210,63.070 L32.721,63.070 A6.279,6.279 0 0 1 26.442,56.791 L26.442,35.861 A6.279,6.279 0 0 1 32.721,29.582 Z" />
+    </group>
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M34,38 L74,38 A4,4 0 0 1 78,42 L78,66 A4,4 0 0 1 74,70 L34,70 A4,4 0 0 1 30,66 L30,42 A4,4 0 0 1 34,38 Z M46,76 L62,76 L62,80 L46,80 Z" />
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="4.884"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M48.419,50.512 L76.326,50.512 A5.233,5.233 0 0 1 81.558,55.745 L81.558,73.187 A5.233,5.233 0 0 1 76.326,78.419 L48.419,78.419 A5.233,5.233 0 0 1 43.186,73.187 L43.186,55.745 A5.233,5.233 0 0 1 48.419,50.512 Z" />
 </vector>

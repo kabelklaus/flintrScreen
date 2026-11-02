@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- flintrScreen brand mark, light variant for dark screens -->
+  <defs>
+    <mask id="cutFront">
+      <rect x="0" y="0" width="400" height="400" fill="white" />
+      <rect x="124" y="156" width="248" height="184" rx="34" ry="34" fill="black" />
+    </mask>
+  </defs>
+  <g fill="none" stroke="#F5F5F5" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+    <g mask="url(#cutFront)">
+      <rect x="44" y="52" width="264" height="192" rx="36" ry="36" />
+    </g>
+    <rect x="140" y="172" width="220" height="160" rx="30" ry="30" />
+  </g>
+</svg>

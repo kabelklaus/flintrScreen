@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="432" height="432">
+  <rect x="0" y="0" width="108" height="108" fill="#2B2E30" />
+  <g fill="none" stroke="#FFFFFF" stroke-width="5.848" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M31.861,28.101 L76.139,28.101 A7.937,7.937 0 0 1 84.076,36.038 L84.076,63.608 A7.937,7.937 0 0 1 76.139,71.544 L31.861,71.544 A7.937,7.937 0 0 1 23.924,63.608 L23.924,36.038 A7.937,7.937 0 0 1 31.861,28.101 Z" />
+    <path d="M45.228,38.126 L74.051,59.013" />
+    <path d="M54,71.544 L54,79.899" />
+    <path d="M43.557,79.899 L64.443,79.899" />
+  </g>
+  <!-- 66dp safe-zone guide (visual check only) -->
+  <circle cx="54" cy="54" r="33" fill="none" stroke="#FF0000" stroke-width="0.4" stroke-dasharray="1,1" opacity="0.5" />
+</svg>

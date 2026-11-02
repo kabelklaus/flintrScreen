@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Variant A: Display + single facet line (flintr family quote) + stand -->
+  <g fill="none" stroke="rgb(68,72,73)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="56" y="64" width="288" height="208" rx="38" ry="38" />
+    <line x1="158" y1="112" x2="296" y2="212" />
+    <line x1="200" y1="272" x2="200" y2="312" />
+    <line x1="150" y1="312" x2="250" y2="312" />
+  </g>
+</svg>
