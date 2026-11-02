@@ -1,6 +1,7 @@
 package com.flintr.screen.engine
 
 import androidx.annotation.Keep
+import com.flintr.screen.render.AudioRenderer
 import java.nio.ByteBuffer
 
 /**
@@ -16,25 +17,41 @@ class AirPlayEngine(
     private val keyFile: String,
     private val hwAddr: ByteArray,
     private val listener: Listener,
+    private val audio: AudioRenderer,
 ) {
     interface Listener {
         fun onVideoFrame(data: ByteArray, ntpTimeNs: Long, isH265: Boolean)
         /** Encoded stream size; arrives before the keyframe it describes, on the same thread. */
         fun onVideoSize(width: Int, height: Int)
+        /** Fires on every audio stream SETUP, including the one after an [onAudioTeardown]. */
         fun onAudio(compressionType: Int, samplesPerFrame: Int, usingScreen: Boolean)
+        /** Sender volume in dB: -30..0, -144 = mute. */
+        fun onClientVolume(db: Float)
+        /** Volume in dB reported back to the sender on SETUP. */
+        fun onClientVolumeQuery(): Float
+        /** The sender tore down the audio stream (the session itself may continue). */
+        fun onAudioTeardown()
         fun onStatus(status: String)
     }
 
     private var handle = 0L
 
-    /** Starts the RAOP server; returns the bound port or -1. */
+    /**
+     * Starts the RAOP server; returns the bound port or -1. [sampleRate] and
+     * [framesPerBurst] are the AudioManager output properties (0 = unknown); Oboe's
+     * OpenSL ES backend needs them for low-latency sizing.
+     */
     @Synchronized
-    fun start(name: String, port: Int = 0): Int {
+    fun start(name: String, port: Int = 0, sampleRate: Int = 0, framesPerBurst: Int = 0): Int {
         if (handle != 0L) return -1
+        nativeSetDefaultStreamValues(sampleRate, framesPerBurst)
         val h = nativeInit(this, hwAddr, name, keyFile, nohold = false, requirePin = false)
         if (h == 0L) return -1
+        // Same order as the reference: the audio engine is configured before RAOP accepts senders.
+        audio.attachEngine(this, h)
         val bound = nativeStart(h, port)
         if (bound < 0) {
+            audio.detachEngine()
             nativeDestroy(h)
             return -1
         }
@@ -63,6 +80,7 @@ class AirPlayEngine(
         val h = handle
         if (h == 0L) return
         handle = 0L
+        audio.detachEngine()
         nativeStop(h)
         nativeDestroy(h)
     }
@@ -85,10 +103,11 @@ class AirPlayEngine(
     fun onMirrorRunning(running: Boolean) = listener.onStatus("mirror:$running")
     fun onLog(msg: String) = listener.onStatus("log:$msg")
 
+    fun onClientVolume(db: Float) = listener.onClientVolume(db)
+    fun onClientVolumeQuery(): Float = listener.onClientVolumeQuery()
+    fun onAudioTeardown() = listener.onAudioTeardown()
+
     // Not used yet; present so native GetMethodID lookups succeed.
-    fun onClientVolume(db: Float) {}
-    fun onClientVolumeQuery(): Float = 0f
-    fun onAudioTeardown() {}
     fun onDisplayPin(pin: String) {}
     fun onMetadata(data: ByteArray) {}
     fun onCoverArt(data: ByteArray) {}
@@ -99,6 +118,18 @@ class AirPlayEngine(
     fun onVideoRate(rate: Float) {}
     fun onVideoStop() {}
     fun onVideoSessionPoll() {}
+
+    // ---- audio control for AudioRenderer; the JNI externals stay private because
+    // `internal` names are mangled in bytecode and JNI would no longer resolve them ----
+
+    internal fun audioConfigure(h: Long, c: AudioRenderer.Config) = nativeServerAudioConfigure(
+        h, c.cushionMs, c.percentilePct, c.oboeBufferFrames,
+        c.forceSwAlac, c.forceSwAac, c.realtimePriority, c.lowLatency, c.benchmarkLog,
+    )
+    internal fun audioStart(h: Long) = nativeServerAudioStart(h)
+    internal fun audioStop(h: Long) = nativeServerAudioStop(h)
+    internal fun audioSetClientGain(h: Long, gain: Float) = nativeServerAudioSetClientGain(h, gain)
+    internal fun audioFormat(h: Long, ct: Int, spf: Int) = nativeServerAudioFormat(h, ct, spf)
 
     // ---- JNI surface (native_bridge.cpp) ----
 
