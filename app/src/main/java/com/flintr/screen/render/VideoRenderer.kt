@@ -137,6 +137,7 @@ object VideoRenderer {
     fun setSurface(s: Surface) {
         handler.post {
             if (surface === s) return@post
+            Log.i(TAG, "setSurface: valid=${s.isValid} (had previous=${surface != null})")
             stopCodec()
             surface = s
         }
@@ -150,6 +151,7 @@ object VideoRenderer {
         val done = CountDownLatch(1)
         handler.post {
             if (surface === s) {
+                Log.i(TAG, "clearSurface: releasing current surface")
                 stopCodec()
                 surface = null
                 _active.value = false
@@ -331,7 +333,7 @@ object VideoRenderer {
             codec = c
             codecH265 = h265
             codecSize = size
-            Log.i(TAG, "decoding $mime $size with ${info.name} (sender reported ${reportedSize ?: "-"})")
+            Log.i(TAG, "decoding $mime $size with ${info.name} onto surface (valid=${s.isValid}), sender reported ${reportedSize ?: "-"}")
             return true
         }
         Log.e(TAG, "no usable decoder for $mime")
@@ -578,15 +580,21 @@ object VideoRenderer {
 
         override fun onOutputBufferAvailable(c: MediaCodec, index: Int, info: MediaCodec.BufferInfo) {
             if (c !== codec) return
+            val render = info.size > 0
             try {
                 // Render immediately: lowest latency, the decoder drops late frames itself.
-                c.releaseOutputBuffer(index, info.size > 0)
+                c.releaseOutputBuffer(index, render)
             } catch (e: Exception) {
                 Log.w(TAG, "rendering failed, waiting for next keyframe", e)
                 fail()
                 return
             }
-            if (info.size > 0) decoded++
+            if (render) {
+                decoded++
+                if (decoded <= FRAME_LOG_FIRST || decoded % FRAME_LOG_EVERY == 0) {
+                    Log.i(TAG, "render #$decoded releaseOutputBuffer(render=true) size=${info.size} ptsUs=${info.presentationTimeUs} surface=$surface")
+                }
+            }
             _active.value = true
         }
 
