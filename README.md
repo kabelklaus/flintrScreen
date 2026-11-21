@@ -9,7 +9,7 @@ Native AirPlay receiver for Android TV — mirror your **Mac** or **iPad** to yo
 
 flintrScreen is a native Kotlin Android TV app that turns an Android TV device into an AirPlay screen receiver:
 
-- **Screen mirroring** from macOS and iPadOS via AirPlay
+- **Screen mirroring** from macOS, iPadOS and iOS (iPhone) via AirPlay
 - **Audio** from AirPlay to your TV speakers (AAC / ALAC, native playback via Oboe)
 - **Hardware video decoding** through Android MediaCodec (H.264), live stats in logcat
 - **TV-first UI**: launch the app, see *"Ready to share"*, connect from your device — two taps, no settings, no overlays while mirroring
@@ -22,7 +22,7 @@ Commercial AirPlay receiver apps on Android TV are ad-ridden. This one isn't.
 ## Requirements
 
 - An Android TV device, Android 6.0+ (API 23+) — 32-bit and 64-bit supported (fat APK)
-- A sender: a Mac (macOS) or iPad (iPadOS) on the same local network
+- A sender: a Mac, iPad or iPhone on the same local network
 
 ## Build
 
@@ -48,7 +48,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 1. Open **flintrScreen** on your TV — it shows *"Ready to share"*.
 2. On your **Mac**: Control Center → Screen Mirroring → **flintrScreen**.
-   On your **iPad**: Control Center → Screen Mirroring → **flintrScreen**.
+   On your **iPad** or **iPhone**: Control Center → Screen Mirroring → **flintrScreen**.
 3. Done — your screen is on the TV.
 
 ## Security note
@@ -58,7 +58,7 @@ The receiver currently accepts AirPlay connections from **anyone on your local n
 ## Disclaimer
 
 > ⚠️ **This project was built with the help of AI** (LLM-assisted development). Bugs are possible — **use at your own risk**.
-> Tested on Xiaomi Mi Box S (Android 8, 32-bit); other devices are untested.
+> Tested on Xiaomi Mi Box S (Android 8, 32-bit) with Mac and iPad senders; iPhone mirroring uses the same AirPlay protocol and should work the same, but is not yet verified on-device. Other TVs/boxes are untested.
 
 ## License
 
