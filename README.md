@@ -2,6 +2,9 @@
 
 Native AirPlay receiver for Android TV — mirror your **Mac** or **iPad** to your TV. **No ads, no accounts, no nonsense.**
 
+![flintrScreen ready screen](img/screenshots/ready-screen.png)
+
+
 ## What it does
 
 flintrScreen is a native Kotlin Android TV app that turns an Android TV device into an AirPlay screen receiver:
